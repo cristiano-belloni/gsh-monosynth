@@ -43,7 +43,7 @@ define(['require'], function(require) {
         }).connect();
 
         var sequencer = new gb_env.Gibberish.Sequencer({
-          target:s, key:'note',
+          target: this.s, key:'note',
           values: [ gb_env.Gibberish.Rndf(150, 300) ],
           durations:[ 22050 ]
         }).start();
