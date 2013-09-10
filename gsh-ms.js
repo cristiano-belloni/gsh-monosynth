@@ -29,22 +29,22 @@ define(['require'], function(require) {
 
         this.gainNode = this.context.createGain();
 
-        var Gibberish = resources[0];
+        var gb_env = resources[0];
 
-        Gibberish.init(this.context, this.gainNode);
-        Gibberish.Time.export();
-        Gibberish.Binops.export();
+        gb_env.Gibberish.init(this.context, this.gainNode);
+        gb_env.Gibberish.Time.export();
+        gb_env.Gibberish.Binops.export();
 
         // monosynth... three oscillators + filter + envelope
-        this.s = new Gibberish.MonoSynth({
+        this.s = new gb_env.Gibberish.MonoSynth({
           attack: 20,
           resonance: 4,
           cutoff: pluginConf.hostParameters.parameters.cutoff.range.default
         }).connect();
 
-        var sequencer = new Gibberish.Sequencer({
+        var sequencer = new gb_env.Gibberish.Sequencer({
           target:s, key:'note',
-          values: [ Gibberish.Rndf(150, 300) ],
+          values: [ gb_env.Gibberish.Rndf(150, 300) ],
           durations:[ 22050 ]
         }).start();
 
