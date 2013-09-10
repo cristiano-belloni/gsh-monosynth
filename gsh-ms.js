@@ -39,13 +39,13 @@ define(['require'], function() {
         this.s = new Gibberish.MonoSynth({
           attack: 20,
           resonance: 4,
-          cutoff: pluginConf.hostParameters.parameters.cutoff.range.default;
+          cutoff: pluginConf.hostParameters.parameters.cutoff.range.default
         }).connect();
 
         var sequencer = new Gibberish.Sequencer({
           target:s, key:'note',
           values: [ Gibberish.Rndf(150, 300) ],
-          durations:[ 22050 ],
+          durations:[ 22050 ]
         }).start();
 
         this.gainNode.connect(this.audioDestination);
