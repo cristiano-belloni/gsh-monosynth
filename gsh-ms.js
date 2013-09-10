@@ -96,7 +96,7 @@ define(['require'], function(require) {
             args.hostInterface.setInstanceStatus ('fatal', {description: 'Error initializing plugin: ' + failedId});
         }.bind(this);
 
-            var resList = [ 'github:janesconference/Gibberish/scripts/build/gibberish_2.0.js' ];
+            var resList = [ 'github:janesconference/Gibberish/scripts/build/gibberish_2.0' ];
 
             console.log ("requiring...");
 
