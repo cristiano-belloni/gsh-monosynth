@@ -22,14 +22,14 @@ define(['require'], function(require) {
         }
     };
   
-    var pluginFunction = function(args) {
+    var pluginFunction = function(args, resources) {
         
         this.audioDestination = args.audioDestinations[0];
         this.context = args.audioContext;
 
         this.gainNode = this.context.createGain();
 
-        var Gibberish = args[0];
+        var Gibberish = resources[0];
 
         Gibberish.init(this.context, this.gainNode);
         Gibberish.Time.export();
