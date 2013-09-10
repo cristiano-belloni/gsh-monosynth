@@ -1,4 +1,4 @@
-define(['require'], function() {
+define(['require'], function(require) {
   
     var pluginConf = {
         name: "GSH MonoSynth",
