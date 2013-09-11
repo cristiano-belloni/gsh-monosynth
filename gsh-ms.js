@@ -17,6 +17,33 @@ define(['require'], function(require) {
                         default: 0.2,
                         max: 1
                     }
+                },
+                resonance: {
+                    name: ['Resonance'],
+                    label: '',
+                    range: {
+                        min: 0,
+                        default: 2,
+                        max: 5
+                    }
+                },
+                attack: {
+                    name: ['Attack'],
+                    label: '',
+                    range: {
+                        min: 0,
+                        default: 20,
+                        max: 5000
+                    }
+                },
+                oscillator: {
+                    name: ['Oscillator'],
+                    label: 'type',
+                    range: {
+                        min: 0,
+                        default: 1,
+                        max: 4
+                    }
                 }
             }
         }
@@ -35,11 +62,15 @@ define(['require'], function(require) {
         gb_env.Gibberish.Time.export();
         gb_env.Gibberish.Binops.export();
 
-        // monosynth... three oscillators + filter + envelope
+        this.oscType = ['Sine', 'Square', 'Noise', 'Triangle', 'Saw'];
+
+        // Instantiate a monosynth with default parameters
         this.s = new gb_env.Gibberish.MonoSynth({
-          attack: 20,
-          resonance: 4,
-          cutoff: pluginConf.hostParameters.parameters.cutoff.range.default
+          // TODO this is duplicate!
+          attack: pluginConf.hostParameters.parameters.attack.range.default,
+          resonance: pluginConf.hostParameters.parameters.resonance.range.default,
+          cutoff: pluginConf.hostParameters.parameters.cutoff.range.default,
+          oscillator: this.oscType[ pluginConf.hostParameters.parameters.oscillator.range.default ],
         }).connect();
 
         var sequencer = new gb_env.Gibberish.Sequencer({
@@ -56,8 +87,18 @@ define(['require'], function(require) {
             if (id === 'cutoff') {
                 this.s.cutoff = value;
             }
-        }
-
+            if (id === 'resonance') {
+                this.s.resonance = value;
+            }
+            if (id === 'attack') {
+                this.s.attack = Math.round(value);
+            }
+            if (id === 'oscillator') {
+                var osc = this.oscType [ Math.round(value) ];
+                console.log ("oscillator is:", osc);
+                this.s.waveform = osc;
+            }
+        };
         if (args.initialState && args.initialState.data) {
             /* Load data */
             this.pluginState = args.initialState.data;
@@ -65,11 +106,14 @@ define(['require'], function(require) {
         else {
             /* Use default data */
             this.pluginState = {
-                cutoff: pluginConf.hostParameters.parameters.cutoff.range.default
+                attack: pluginConf.hostParameters.parameters.attack.range.default,
+                resonance: pluginConf.hostParameters.parameters.resonance.range.default,
+                cutoff: pluginConf.hostParameters.parameters.cutoff.range.default,
+                oscillator: this.oscType[ pluginConf.hostParameters.parameters.oscillator.range.default ],
             };
         }
 
-        for (param in this.pluginState) {
+        for (var param in this.pluginState) {
             if (this.pluginState.hasOwnProperty(param)) {
                 args.hostInterface.setParm (param, this.pluginState[param]);
                 onParmChange.apply (this, [param, this.pluginState[param]]);
