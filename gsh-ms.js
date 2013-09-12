@@ -32,8 +32,17 @@ define(['require'], function(require) {
                     label: '',
                     range: {
                         min: 2,
-                        default: 20,
-                        max: 5000
+                        default: 10000,
+                        max: 22050
+                    }
+                },
+                decay: {
+                    name: ['Decay'],
+                    label: '',
+                    range: {
+                        min: 2,
+                        default: 10000,
+                        max: 22050
                     }
                 },
                 oscillator: {
