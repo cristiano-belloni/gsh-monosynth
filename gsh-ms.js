@@ -79,7 +79,8 @@ define(['require'], function(require) {
           attack: pluginConf.hostParameters.parameters.attack.range.default,
           resonance: pluginConf.hostParameters.parameters.resonance.range.default,
           cutoff: pluginConf.hostParameters.parameters.cutoff.range.default,
-          waveform: this.oscType[ pluginConf.hostParameters.parameters.oscillator.range.default ],
+          decay: pluginConf.hostParameters.parameters.decay.range.default,
+          waveform: this.oscType[ pluginConf.hostParameters.parameters.oscillator.range.default ]
         }).connect();
 
         var sequencer = new gb_env.Gibberish.Sequencer({
@@ -106,6 +107,13 @@ define(['require'], function(require) {
                     this.s.attack = atk;
                 }
             }
+            if (id === 'decay') {
+                var dcy = Math.round(value);
+                if (this.s.waveform !== dcy) {
+                    console.log ("decay set to:", dcy);
+                    this.s.decay = dcy;
+                }
+            }
             if (id === 'oscillator') {
                 var osc = this.oscType [ Math.round(value) ];
                 if (this.s.waveform !== osc) {
@@ -121,6 +129,7 @@ define(['require'], function(require) {
         else {
             /* Use default data */
             this.pluginState = {
+                decay: pluginConf.hostParameters.parameters.decay.range.default,
                 attack: pluginConf.hostParameters.parameters.attack.range.default,
                 resonance: pluginConf.hostParameters.parameters.resonance.range.default,
                 cutoff: pluginConf.hostParameters.parameters.cutoff.range.default,
