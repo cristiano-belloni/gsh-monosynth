@@ -91,12 +91,18 @@ define(['require'], function(require) {
                 this.s.resonance = value;
             }
             if (id === 'attack') {
-                this.s.attack = Math.round(value);
+                var atk = Math.round(value);
+                if (this.s.waveform !== atk) {
+                    console.log ("attack set to:", atk);
+                    this.s.attack = atk;
+                }
             }
             if (id === 'oscillator') {
                 var osc = this.oscType [ Math.round(value) ];
-                console.log ("oscillator is:", osc);
-                this.s.waveform = osc;
+                if (this.s.waveform !== osc) {
+                    console.log ("oscillator set to:", osc);
+                    this.s.waveform = osc;
+                }
             }
         };
         if (args.initialState && args.initialState.data) {
