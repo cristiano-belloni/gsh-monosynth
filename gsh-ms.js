@@ -62,7 +62,25 @@ define(['require'], function(require) {
                         default: 0.3,
                         max: 1
                     }
-                }
+                },
+                octave2: {
+                    name: ['Oct 2'],
+                    label: '',
+                    range: {
+                        min: -2,
+                        default: 1,
+                        max: 2
+                    }
+                },
+                octave3: {
+                    name: ['Oct 3'],
+                    label: '',
+                    range: {
+                        min: -2,5,
+                        default: -1,
+                        max: 2,5
+                    }
+                },
             }
         }
     };
@@ -90,7 +108,9 @@ define(['require'], function(require) {
           cutoff: pluginConf.hostParameters.parameters.cutoff.range.default,
           decay: pluginConf.hostParameters.parameters.decay.range.default,
           waveform: this.oscType[ pluginConf.hostParameters.parameters.oscillator.range.default ],
-          filterMult: pluginConf.hostParameters.parameters.filterMult.range.default
+          filterMult: pluginConf.hostParameters.parameters.filterMult.range.default,
+          octave2: pluginConf.hostParameters.parameters.octave2.range.default,
+          octave3: pluginConf.hostParameters.parameters.octave3.range.default,
         }).connect();
 
         var sequencer = new gb_env.Gibberish.Sequencer({
@@ -134,6 +154,24 @@ define(['require'], function(require) {
             if (id === 'filterMult') {
                     this.s.filterMult = value;
             }
+            if (id === 'octave2') {
+                if (oct2 < - 2) oct2 = -2;
+                if (oct3 > 2) oct2 = 2;
+                var oct2 = Math.round(value);
+                if (this.s.ocave2 !== oct2) {
+                    console.log ("octave2 set to:", oct2);
+                    this.s.octave2 = oct2;
+                }
+            }
+            if (id === 'octave3') {
+                var oct3 = Math.round(value);
+                if (oct3 < - 2) oct3 = -2;
+                if (oct3 > 2) oct3 = 2;
+                if (this.s.ocave3 !== oct3) {
+                    console.log ("octave3 set to:", oct3);
+                    this.s.octave3 = oct3;
+                }
+            }
         };
         if (args.initialState && args.initialState.data) {
             /* Load data */
@@ -147,7 +185,9 @@ define(['require'], function(require) {
                 resonance: pluginConf.hostParameters.parameters.resonance.range.default,
                 cutoff: pluginConf.hostParameters.parameters.cutoff.range.default,
                 oscillator: pluginConf.hostParameters.parameters.oscillator.range.default,
-                filterMult: pluginConf.hostParameters.parameters.filterMult.range.default
+                filterMult: pluginConf.hostParameters.parameters.filterMult.range.default,
+                octave2: pluginConf.hostParameters.parameters.octave2.range.default,
+                octave3: pluginConf.hostParameters.parameters.octave3.range.default,
             };
         }
 
