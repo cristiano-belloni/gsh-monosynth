@@ -29,7 +29,7 @@ define(['require'], function(require) {
                 },
                 attack: {
                     name: ['Attack'],
-                    label: '',
+                    label: 'samples',
                     range: {
                         min: 2,
                         default: 10000,
@@ -38,7 +38,7 @@ define(['require'], function(require) {
                 },
                 decay: {
                     name: ['Decay'],
-                    label: '',
+                    label: 'samples',
                     range: {
                         min: 2,
                         default: 10000,
@@ -52,6 +52,15 @@ define(['require'], function(require) {
                         min: 0,
                         default: 1,
                         max: 4
+                    }
+                },
+                filterMult: {
+                    name: ['F Mul'],
+                    label: 'x',
+                    range: {
+                        min: 0,
+                        default: 0.3,
+                        max: 1
                     }
                 }
             }
@@ -80,7 +89,8 @@ define(['require'], function(require) {
           resonance: pluginConf.hostParameters.parameters.resonance.range.default,
           cutoff: pluginConf.hostParameters.parameters.cutoff.range.default,
           decay: pluginConf.hostParameters.parameters.decay.range.default,
-          waveform: this.oscType[ pluginConf.hostParameters.parameters.oscillator.range.default ]
+          waveform: this.oscType[ pluginConf.hostParameters.parameters.oscillator.range.default ],
+          filterMult: pluginConf.hostParameters.parameters.filterMult.range.default
         }).connect();
 
         var sequencer = new gb_env.Gibberish.Sequencer({
@@ -121,6 +131,9 @@ define(['require'], function(require) {
                     this.s.waveform = osc;
                 }
             }
+            if (id === 'filterMult') {
+                    this.s.filterMult = value;
+            }
         };
         if (args.initialState && args.initialState.data) {
             /* Load data */
@@ -134,6 +147,7 @@ define(['require'], function(require) {
                 resonance: pluginConf.hostParameters.parameters.resonance.range.default,
                 cutoff: pluginConf.hostParameters.parameters.cutoff.range.default,
                 oscillator: pluginConf.hostParameters.parameters.oscillator.range.default,
+                filterMult: pluginConf.hostParameters.parameters.filterMult.range.default
             };
         }
 
