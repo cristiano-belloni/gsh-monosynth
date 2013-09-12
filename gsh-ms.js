@@ -158,7 +158,7 @@ define(['require'], function(require) {
                 if (oct2 < - 2) oct2 = -2;
                 if (oct3 > 2) oct2 = 2;
                 var oct2 = Math.round(value);
-                if (this.s.ocave2 !== oct2) {
+                if (this.s.octave2 !== oct2) {
                     console.log ("octave2 set to:", oct2);
                     this.s.octave2 = oct2;
                 }
@@ -167,7 +167,7 @@ define(['require'], function(require) {
                 var oct3 = Math.round(value);
                 if (oct3 < - 2) oct3 = -2;
                 if (oct3 > 2) oct3 = 2;
-                if (this.s.ocave3 !== oct3) {
+                if (this.s.octave3 !== oct3) {
                     console.log ("octave3 set to:", oct3);
                     this.s.octave3 = oct3;
                 }
