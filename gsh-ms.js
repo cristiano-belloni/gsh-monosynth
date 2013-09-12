@@ -67,18 +67,18 @@ define(['require'], function(require) {
                     name: ['Oct 2'],
                     label: '',
                     range: {
-                        min: -2,
+                        min: -2.5,
                         default: 1,
-                        max: 2
+                        max: 2.5
                     }
                 },
                 octave3: {
                     name: ['Oct 3'],
                     label: '',
                     range: {
-                        min: -2,5,
+                        min: -2.5,
                         default: -1,
-                        max: 2,5
+                        max: 2.5
                     }
                 },
             }
