@@ -70,7 +70,7 @@ define(['require'], function(require) {
           attack: pluginConf.hostParameters.parameters.attack.range.default,
           resonance: pluginConf.hostParameters.parameters.resonance.range.default,
           cutoff: pluginConf.hostParameters.parameters.cutoff.range.default,
-          oscillator: this.oscType[ pluginConf.hostParameters.parameters.oscillator.range.default ],
+          oscillator: pluginConf.hostParameters.parameters.oscillator.range.default,
         }).connect();
 
         var sequencer = new gb_env.Gibberish.Sequencer({
