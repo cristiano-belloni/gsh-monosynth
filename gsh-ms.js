@@ -31,7 +31,7 @@ define(['require'], function(require) {
                     name: ['Attack'],
                     label: '',
                     range: {
-                        min: 0,
+                        min: 2,
                         default: 20,
                         max: 5000
                     }
