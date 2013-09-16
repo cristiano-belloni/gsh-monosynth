@@ -259,13 +259,14 @@ define(['require', 'github:janesconference/KievII@jspm0.5/dist/kievII'], functio
                 args.hostInterface.setParm (param, this.pluginState[param]);
                 onParmChange.apply (this, [param, this.pluginState[param]]);
             }
+         args.hostInterface.setHostCallback (onParmChange);
         } */
 
         var saveState = function () {
             return { data: this.pluginState };
         };
         args.hostInterface.setSaveState (saveState);
-        args.hostInterface.setHostCallback (onParmChange);
+
 
         // Initialization made it so far: plugin is ready.
         args.hostInterface.setInstanceStatus ('ready');
