@@ -236,7 +236,7 @@ define(['require', 'github:janesconference/KievII@jspm0.5/dist/kievII'], functio
             onValueSet: function (slot, value, element) {
                 this.pluginState[element] = value;
                 var scaledValue = K2.MathUtils.linearRange (0, 1, pluginConf.hostParameters.parameters[element].range.min, pluginConf.hostParameters.parameters[element].range.min, value);
-                //onParmChange.call (this, element, scaledValue);
+                onParmChange.call (this, element, value);
                 this.ui.refresh();
             }.bind(this),
             isListening: true
@@ -249,7 +249,7 @@ define(['require', 'github:janesconference/KievII@jspm0.5/dist/kievII'], functio
             knobArgs.left = currKnob.x;
             this.ui.addElement(new K2.Knob(knobArgs));
             var initValue = currKnob.init;
-            this.ui.setValue ({elementID: knobArgs.ID, value: initValue});
+            this.ui.setValue ({elementID: knobArgs.ID, value: initValue, fireCallback:false});
         }
 
         this.ui.refresh();
