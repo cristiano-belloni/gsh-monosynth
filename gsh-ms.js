@@ -236,7 +236,7 @@ define(['require', 'github:janesconference/KievII@jspm0.5/dist/kievII'], functio
             onValueSet: function (slot, value, element) {
                 this.pluginState[element] = value;
                 var scaledValue = K2.MathUtils.linearRange (0, 1, pluginConf.hostParameters.parameters[element].range.min, pluginConf.hostParameters.parameters[element].range.min, value);
-                onParmChange.call (this, element, scaledValue);
+                //onParmChange.call (this, element, scaledValue);
                 this.ui.refresh();
             }.bind(this),
             isListening: true
@@ -253,14 +253,6 @@ define(['require', 'github:janesconference/KievII@jspm0.5/dist/kievII'], functio
         }
 
         this.ui.refresh();
-
-        /* for (var param in this.pluginState) {
-            if (this.pluginState.hasOwnProperty(param)) {
-                args.hostInterface.setParm (param, this.pluginState[param]);
-                onParmChange.apply (this, [param, this.pluginState[param]]);
-            }
-         args.hostInterface.setHostCallback (onParmChange);
-        } */
 
         var saveState = function () {
             return { data: this.pluginState };
