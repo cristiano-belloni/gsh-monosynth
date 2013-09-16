@@ -254,12 +254,12 @@ define(['require', 'github:janesconference/KievII@jspm0.5/dist/kievII'], functio
 
         this.ui.refresh();
 
-        for (var param in this.pluginState) {
+        /* for (var param in this.pluginState) {
             if (this.pluginState.hasOwnProperty(param)) {
                 args.hostInterface.setParm (param, this.pluginState[param]);
                 onParmChange.apply (this, [param, this.pluginState[param]]);
             }
-        }
+        } */
 
         var saveState = function () {
             return { data: this.pluginState };
