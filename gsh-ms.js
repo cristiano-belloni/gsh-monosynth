@@ -235,7 +235,7 @@ define(['require', 'github:janesconference/KievII@jspm0.5/dist/kievII'], functio
             bottomAngularOffset: 33,
             onValueSet: function (slot, value, element) {
                 this.pluginState[element] = value;
-                var scaledValue = K2.MathUtils.linearRange (0, 1, pluginConf.hostParameters.parameters[element].range.min, pluginConf.hostParameters.parameters[element].range.min, value);
+                var scaledValue = K2.MathUtils.linearRange (0, 1, pluginConf.hostParameters.parameters[element].range.min, pluginConf.hostParameters.parameters[element].range.max, value);
                 onParmChange.call (this, element, scaledValue);
                 this.ui.refresh();
             }.bind(this),
