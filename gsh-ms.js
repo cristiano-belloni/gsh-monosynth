@@ -1,4 +1,4 @@
-define(['require'], function(require) {
+define(['require', 'github:janesconference/KievII@jspm0.5/dist/kievII'], function(require) {
   
     var pluginConf = {
         name: "GSH MonoSynth",
@@ -6,8 +6,13 @@ define(['require'], function(require) {
         audioOut: 1,
         audioIn: 0,
         version: '0.0.1-alpha1',
+        ui: {
+            type: 'canvas',
+            width: 574,
+            height: 358
+        },
         hostParameters : {
-            enabled: true,
+            enabled: false,
             parameters: {
                 cutoff: {
                     name: ['Cutoff'],
@@ -80,7 +85,7 @@ define(['require'], function(require) {
                         default: -1,
                         max: 2.5
                     }
-                },
+                }
             }
         }
     };
@@ -93,6 +98,8 @@ define(['require'], function(require) {
         this.gainNode = this.context.createGain();
 
         var gb_env = resources[0];
+        var knobImage = resources[1];
+        var deckImage = resources[2];
 
         gb_env.Gibberish.init(this.context, this.gainNode);
         gb_env.Gibberish.Time.export();
@@ -110,7 +117,7 @@ define(['require'], function(require) {
           waveform: this.oscType[ pluginConf.hostParameters.parameters.oscillator.range.default ],
           filterMult: pluginConf.hostParameters.parameters.filterMult.range.default,
           octave2: pluginConf.hostParameters.parameters.octave2.range.default,
-          octave3: pluginConf.hostParameters.parameters.octave3.range.default,
+          octave3: pluginConf.hostParameters.parameters.octave3.range.default
         }).connect();
 
         var sequencer = new gb_env.Gibberish.Sequencer({
@@ -173,6 +180,7 @@ define(['require'], function(require) {
                 }
             }
         };
+
         if (args.initialState && args.initialState.data) {
             /* Load data */
             this.pluginState = args.initialState.data;
@@ -187,9 +195,64 @@ define(['require'], function(require) {
                 oscillator: pluginConf.hostParameters.parameters.oscillator.range.default,
                 filterMult: pluginConf.hostParameters.parameters.filterMult.range.default,
                 octave2: pluginConf.hostParameters.parameters.octave2.range.default,
-                octave3: pluginConf.hostParameters.parameters.octave3.range.default,
+                octave3: pluginConf.hostParameters.parameters.octave3.range.default
             };
         }
+
+        // INTERFACE STUFF
+
+        /* INTERFACE INIT */
+        this.ui = new K2.UI ({type: 'CANVAS2D', target: args.canvas}, {'breakOnFirstEvent': true});
+
+        /* BACKGROUND INIT */
+        var bgArgs = new K2.Background({
+            ID: 'background',
+            image: deckImage,
+            top: 0,
+            left: 0
+        });
+
+        this.ui.addElement(bgArgs, {zIndex: 0});
+
+        /* KNOB INIT */
+        this.knobDescription = [
+            {id: 'attack', init: this.pluginState.attack, x: 20, y: 20},
+            {id: 'decay', init: this.pluginState.decay, x: 80, y: 20},
+            {id: 'cutoff', init: this.pluginState.cutoff, x: 160, y: 20},
+            {id: 'resonance', init: this.pluginState.resonance, x: 20, y: 80},
+            {id: 'filterMult', init: this.pluginState.filterMult, x: 80, y: 80},
+        ];
+
+        var knobArgs = {
+            ID: '',
+            left: 0 ,
+            top: 0,
+            imagesArray : [knobImage],
+            sensitivity : 5000,
+            tileWidth: 64,
+            tileHeight: 64,
+            imageNum: 64,
+            bottomAngularOffset: 33,
+            onValueSet: function (slot, value, element) {
+                this.pluginState[element] = value;
+                var scaledValue = K2.MathUtils.linearRange (0, 1, pluginConf.hostParameters.parameters[element].range.min, pluginConf.hostParameters.parameters[element].range.min, value);
+                onParmChange.call (this, element, scaledValue);
+                this.ui.refresh();
+            }.bind(this),
+            isListening: true
+        };
+
+        for (var i = 0; i < this.knobDescription.length; i+=1) {
+            var currKnob = this.knobDescription[i];
+            knobArgs.ID = currKnob.id;
+            knobArgs.top = currKnob.y;
+            knobArgs.left = currKnob.x;
+            this.ui.addElement(new K2.Knob(knobArgs));
+            var initValue = currKnob.init;
+            this.ui.setValue ({elementID: knobArgs.ID, value: initValue});
+        }
+
+        this.ui.refresh();
 
         for (var param in this.pluginState) {
             if (this.pluginState.hasOwnProperty(param)) {
@@ -218,7 +281,9 @@ define(['require'], function(require) {
             args.hostInterface.setInstanceStatus ('fatal', {description: 'Error initializing plugin: ' + failedId});
         }.bind(this);
 
-            var resList = [ 'github:janesconference/Gibberish/scripts/build/gibberish_2.0' ];
+            var resList = [ 'github:janesconference/Gibberish/scripts/build/gibberish_2.0',
+                            './assets/images/knob_64_64_64.png!image',
+                            './assets/images/deck.png!image'];
 
             console.log ("requiring...");
 
