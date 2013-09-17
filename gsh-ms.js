@@ -85,7 +85,44 @@ define(['require', 'github:janesconference/KievII@jspm0.5/dist/kievII'], functio
                         default: -1,
                         max: 2.5
                     }
+                },
+                glide: {
+                    name: ['Glide'],
+                    label: '',
+                    range: {
+                        min: 0,
+                        default: 0,
+                        max: 22050
+                    }
+                },
+                amp: {
+                    name: ['Amp'],
+                    label: '',
+                    range: {
+                        min: 0,
+                        default: 0,
+                        max: 1
+                    }
+                }                ,
+                detune2: {
+                    name: ['Detune 2'],
+                    label: '',
+                    range: {
+                        min: -1,
+                        default: 0.01,
+                        max: 1
+                    }
+                },
+                detune3: {
+                    name: ['Detune 3'],
+                    label: '',
+                    range: {
+                        min: -1,
+                        default: -0.01,
+                        max: 1
+                    }
                 }
+
             }
         }
     };
@@ -117,7 +154,11 @@ define(['require', 'github:janesconference/KievII@jspm0.5/dist/kievII'], functio
           waveform: this.oscType[ pluginConf.hostParameters.parameters.oscillator.range.default ],
           filterMult: pluginConf.hostParameters.parameters.filterMult.range.default,
           octave2: pluginConf.hostParameters.parameters.octave2.range.default,
-          octave3: pluginConf.hostParameters.parameters.octave3.range.default
+          octave3: pluginConf.hostParameters.parameters.octave3.range.default,
+          glide: pluginConf.hostParameters.parameters.glide.range.default,
+          amp: pluginConf.hostParameters.parameters.amp.range.default,
+          detune2: pluginConf.hostParameters.parameters.detune2.range.default,
+          detune3: pluginConf.hostParameters.parameters.detune3.range.default
         }).connect();
 
         var sequencer = new gb_env.Gibberish.Sequencer({
@@ -132,9 +173,11 @@ define(['require', 'github:janesconference/KievII@jspm0.5/dist/kievII'], functio
         var onParmChange = function (id, value) {
             this.pluginState[id] = value;
             if (id === 'cutoff') {
+                console.log ("cutoff set to:", value);
                 this.s.cutoff = value;
             }
             if (id === 'resonance') {
+                console.log ("resonance set to:", value);
                 this.s.resonance = value;
             }
             if (id === 'attack') {
@@ -151,6 +194,17 @@ define(['require', 'github:janesconference/KievII@jspm0.5/dist/kievII'], functio
                     this.s.decay = dcy;
                 }
             }
+            if (id === 'glide') {
+                var glide = Math.round(value);
+                if (this.s.waveform !== glide) {
+                    console.log ("glide set to:", glide);
+                    this.s.glide = glide;
+                }
+            }
+            if (id === 'amp') {
+                console.log ("amp set to:", value);
+                this.s.amp = value;
+            }
             if (id === 'oscillator') {
                 var osc = this.oscType [ Math.round(value) ];
                 if (this.s.waveform !== osc) {
@@ -159,7 +213,16 @@ define(['require', 'github:janesconference/KievII@jspm0.5/dist/kievII'], functio
                 }
             }
             if (id === 'filterMult') {
-                    this.s.filterMult = value;
+                console.log ("filterMult set to:", value);
+                this.s.filterMult = value;
+            }
+            if (id === 'detune2') {
+                console.log ("detune2 set to:", value);
+                this.s.detune2 = value;
+            }
+            if (id === 'detune3') {
+                console.log ("detune3 set to:", value);
+                this.s.detune3 = value;
             }
             if (id === 'octave2') {
                 if (oct2 < - 2) oct2 = -2;
@@ -195,7 +258,11 @@ define(['require', 'github:janesconference/KievII@jspm0.5/dist/kievII'], functio
                 oscillator: pluginConf.hostParameters.parameters.oscillator.range.default,
                 filterMult: pluginConf.hostParameters.parameters.filterMult.range.default,
                 octave2: pluginConf.hostParameters.parameters.octave2.range.default,
-                octave3: pluginConf.hostParameters.parameters.octave3.range.default
+                octave3: pluginConf.hostParameters.parameters.octave3.range.default,
+                glide: pluginConf.hostParameters.parameters.glide.range.default,
+                amp: pluginConf.hostParameters.parameters.amp.range.default,
+                detune2: pluginConf.hostParameters.parameters.detune2.range.default,
+                detune3: pluginConf.hostParameters.parameters.detune3.range.default
             };
         }
 
@@ -215,12 +282,17 @@ define(['require', 'github:janesconference/KievII@jspm0.5/dist/kievII'], functio
         this.ui.addElement(bgArgs, {zIndex: 0});
 
         /* KNOB INIT */
+        // TODO these are duplicates
         this.knobDescription = [
             {id: 'attack', init: this.pluginState.attack, x: 20, y: 20},
-            {id: 'decay', init: this.pluginState.decay, x: 80, y: 20},
-            {id: 'cutoff', init: this.pluginState.cutoff, x: 160, y: 20},
-            {id: 'resonance', init: this.pluginState.resonance, x: 20, y: 80},
-            {id: 'filterMult', init: this.pluginState.filterMult, x: 80, y: 80},
+            {id: 'decay', init: this.pluginState.decay, x: 104, y: 20},
+            {id: 'cutoff', init: this.pluginState.cutoff, x: 194, y: 20},
+            {id: 'resonance', init: this.pluginState.resonance, x: 278, y: 20},
+            {id: 'filterMult', init: this.pluginState.filterMult, x: 194, y: 134},
+            {id: 'glide', init: this.pluginState.filterMult, x: 20, y: 134},
+            {id: 'amp', init: this.pluginState.filterMult, x: 104, y: 134},
+            {id: 'detune2', init: this.pluginState.detune2, x: 384, y: 134},
+            {id: 'detune3', init: this.pluginState.detune3, x: 484, y: 134}
         ];
 
         var knobArgs = {
