@@ -100,10 +100,10 @@ define(['require', 'github:janesconference/KievII@jspm0.5/dist/kievII'], functio
                     label: '',
                     range: {
                         min: 0,
-                        default: 0,
+                        default: 1,
                         max: 1
                     }
-                }                ,
+                },
                 detune2: {
                     name: ['Detune 2'],
                     label: '',
@@ -289,8 +289,8 @@ define(['require', 'github:janesconference/KievII@jspm0.5/dist/kievII'], functio
             {id: 'cutoff', init: this.pluginState.cutoff, x: 194, y: 20},
             {id: 'resonance', init: this.pluginState.resonance, x: 278, y: 20},
             {id: 'filterMult', init: this.pluginState.filterMult, x: 194, y: 134},
-            {id: 'glide', init: this.pluginState.filterMult, x: 20, y: 134},
-            {id: 'amp', init: this.pluginState.filterMult, x: 104, y: 134},
+            {id: 'glide', init: this.pluginState.glide, x: 20, y: 134},
+            {id: 'amp', init: this.pluginState.amp, x: 104, y: 134},
             {id: 'detune2', init: this.pluginState.detune2, x: 384, y: 134},
             {id: 'detune3', init: this.pluginState.detune3, x: 484, y: 134}
         ];
@@ -321,6 +321,7 @@ define(['require', 'github:janesconference/KievII@jspm0.5/dist/kievII'], functio
             knobArgs.left = currKnob.x;
             this.ui.addElement(new K2.Knob(knobArgs));
             var initValue = currKnob.init;
+            console.log ("Setting", currKnob.id, "to value", initValue);
             this.ui.setValue ({elementID: knobArgs.ID, value: initValue, fireCallback:false});
         }
 
