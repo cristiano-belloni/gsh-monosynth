@@ -161,11 +161,11 @@ define(['require', 'github:janesconference/KievII@jspm0.5/dist/kievII'], functio
           detune3: pluginConf.hostParameters.parameters.detune3.range.default
         }).connect();
 
-        var sequencer = new gb_env.Gibberish.Sequencer({
+        /*var sequencer = new gb_env.Gibberish.Sequencer({
           target: this.s, key:'note',
           values: [ gb_env.Gibberish.Rndf(150, 300) ],
           durations:[ 22050 ]
-        }).start();
+        }).start();*/
 
         this.gainNode.connect(this.audioDestination);
 
@@ -295,6 +295,11 @@ define(['require', 'github:janesconference/KievII@jspm0.5/dist/kievII'], functio
             {id: 'detune3', init: this.pluginState.detune3, x: 484, y: 134}
         ];
 
+        var MIDI2Freq = function (n) {
+            var freq = 440 * Math.pow(2, ((n - 69) / 12));
+            return freq;
+        }
+
         var knobArgs = {
             ID: '',
             left: 0 ,
@@ -331,6 +336,21 @@ define(['require', 'github:janesconference/KievII@jspm0.5/dist/kievII'], functio
             return { data: this.pluginState };
         };
         args.hostInterface.setSaveState (saveState);
+
+        var onMIDIMessage = function (message) {
+            if (message.type === 'noteon') {
+                var freq = MIDI2Freq (message.pitch);
+                var vel = message.velocity / 127;
+                this.s.note(freq, vel);
+            }
+            /*if (message.type === 'noteoff') {
+                var freq = MIDI2Freq (message.pitch);
+                var vel = 0;
+                this.s.note(freq, vel);
+            }*/
+        };
+
+        args.MIDIHandler.setMIDICallback (onMIDIMessage. bind (this));
 
 
         // Initialization made it so far: plugin is ready.
