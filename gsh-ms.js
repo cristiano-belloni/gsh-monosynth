@@ -72,14 +72,14 @@ define(['require', 'github:janesconference/KievII@jspmfactory/dist/kievII'], fun
                     name: ['Oct 2'],
                     label: '',
                     range: {
-                        default: 2,
+                        default: 2
                     }
                 },
                 octave3: {
                     name: ['Oct 3'],
                     label: '',
                     range: {
-                        default: 0,
+                        default: 0
                     }
                 },
                 glide: {
@@ -123,7 +123,7 @@ define(['require', 'github:janesconference/KievII@jspmfactory/dist/kievII'], fun
         }
     };
   
-    var pluginFunction = function(args, resources) {
+    var pluginFunction = function(args, resources, keyNotes) {
         
         this.audioDestination = args.audioDestinations[0];
         this.context = args.audioContext;
@@ -276,6 +276,26 @@ define(['require', 'github:janesconference/KievII@jspmfactory/dist/kievII'], fun
         this.ui.addElement(bgArgs, {zIndex: 0});
 
         /* KEYS INIT */
+        var keyCB = function (slot,value, element) {
+            console.log ("Callback called for", element);
+            this.ui.refresh();
+        }.bind(this);
+
+        var key = {
+            ID: "",
+            left: 0,
+            top: 257,
+            mode: 'immediate',
+            imagesArray : null,
+            onValueSet: keyCB
+        };
+
+        for (var i = 0; i < keyNotes.length; i+=1) {
+            key.ID = keyNotes[i];
+            key.left = 15 + (i * 45);
+            key.imagesArray = [resources[10 + i * 2], resources[11 + i * 2]];
+            this.ui.addElement(new K2.Button(key), {zIndex: 1});
+        }
 
         /* KNOB INIT */
         // TODO these are duplicates
@@ -424,8 +444,8 @@ define(['require', 'github:janesconference/KievII@jspmfactory/dist/kievII'], fun
 
         var keyNotes_images = [];
         for (var i = 0; i < keyNotes.length; i+=1) {
-            keyNotes_images.push('./assets/images/' + keyNotes[i] + '_a.png!image');
             keyNotes_images.push('./assets/images/' + keyNotes[i] + '_i.png!image');
+            keyNotes_images.push('./assets/images/' + keyNotes[i] + '_a.png!image');
         }
         resList = resList.concat(keyNotes_images);
 
@@ -434,7 +454,7 @@ define(['require', 'github:janesconference/KievII@jspmfactory/dist/kievII'], fun
             require (resList,
                 function () {
                     console.log ("required...");
-                    pluginFunction.call (this, args, arguments);
+                    pluginFunction.call (this, args, arguments, keyNotes);
                 }.bind(this),
                 function (err) {
                     console.log ("require error");
