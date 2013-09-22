@@ -1,4 +1,4 @@
-define(['require', 'github:janesconference/KievII@jspm0.5/dist/kievII'], function(require, K2) {
+define(['require', 'github:janesconference/KievII@jspmfactory/dist/kievII'], function(require, K2) {
   
     var pluginConf = {
         name: "GSH MonoSynth",
@@ -55,7 +55,7 @@ define(['require', 'github:janesconference/KievII@jspm0.5/dist/kievII'], functio
                     label: 'type',
                     range: {
                         min: 0,
-                        default: 1,
+                        default: 2,
                         max: 4
                     }
                 },
@@ -72,18 +72,14 @@ define(['require', 'github:janesconference/KievII@jspm0.5/dist/kievII'], functio
                     name: ['Oct 2'],
                     label: '',
                     range: {
-                        min: -2.5,
-                        default: 1,
-                        max: 2.5
+                        default: 2,
                     }
                 },
                 octave3: {
                     name: ['Oct 3'],
                     label: '',
                     range: {
-                        min: -2.5,
-                        default: -1,
-                        max: 2.5
+                        default: 0,
                     }
                 },
                 glide: {
@@ -137,12 +133,14 @@ define(['require', 'github:janesconference/KievII@jspm0.5/dist/kievII'], functio
         var gb_env = resources[0];
         var knobImage = resources[1];
         var deckImage = resources[2];
+        var oscButtonImages = Array.prototype.slice.call(resources, 3, 7);
+        var octButtonImages = Array.prototype.slice.call(resources, 7, 10);
 
         gb_env.Gibberish.init(this.context, this.gainNode);
         gb_env.Gibberish.Time.export();
         gb_env.Gibberish.Binops.export();
 
-        this.oscType = ['Sine', 'Square', 'Noise', 'Triangle', 'Saw'];
+        this.oscType = ['Triangle', 'Saw', 'Square', 'Sine', 'Noise'];
 
         // Instantiate a monosynth with default parameters
         this.s = new gb_env.Gibberish.MonoSynth({
@@ -153,8 +151,8 @@ define(['require', 'github:janesconference/KievII@jspm0.5/dist/kievII'], functio
           decay: pluginConf.hostParameters.parameters.decay.range.default,
           waveform: this.oscType[ pluginConf.hostParameters.parameters.oscillator.range.default ],
           filterMult: pluginConf.hostParameters.parameters.filterMult.range.default,
-          octave2: pluginConf.hostParameters.parameters.octave2.range.default,
-          octave3: pluginConf.hostParameters.parameters.octave3.range.default,
+          octave2: pluginConf.hostParameters.parameters.octave2.range.default - 1,
+          octave3: pluginConf.hostParameters.parameters.octave3.range.default - 1,
           glide: pluginConf.hostParameters.parameters.glide.range.default,
           amp: pluginConf.hostParameters.parameters.amp.range.default,
           detune2: pluginConf.hostParameters.parameters.detune2.range.default,
@@ -206,7 +204,7 @@ define(['require', 'github:janesconference/KievII@jspm0.5/dist/kievII'], functio
                 this.s.amp = value;
             }
             if (id === 'oscillator') {
-                var osc = this.oscType [ Math.round(value) ];
+                var osc = this.oscType [value];
                 if (this.s.waveform !== osc) {
                     console.log ("oscillator set to:", osc);
                     this.s.waveform = osc;
@@ -225,18 +223,14 @@ define(['require', 'github:janesconference/KievII@jspm0.5/dist/kievII'], functio
                 this.s.detune3 = value;
             }
             if (id === 'octave2') {
-                if (oct2 < - 2) oct2 = -2;
-                if (oct3 > 2) oct2 = 2;
-                var oct2 = Math.round(value);
+                var oct2 = value;
                 if (this.s.octave2 !== oct2) {
                     console.log ("octave2 set to:", oct2);
                     this.s.octave2 = oct2;
                 }
             }
             if (id === 'octave3') {
-                var oct3 = Math.round(value);
-                if (oct3 < - 2) oct3 = -2;
-                if (oct3 > 2) oct3 = 2;
+                var oct3 = value;
                 if (this.s.octave3 !== oct3) {
                     console.log ("octave3 set to:", oct3);
                     this.s.octave3 = oct3;
@@ -332,6 +326,52 @@ define(['require', 'github:janesconference/KievII@jspm0.5/dist/kievII'], functio
             this.ui.setValue ({elementID: knobArgs.ID, value: initValue, fireCallback:false});
         }
 
+        /* OCTAVE BUTTONS INIT */
+        // Oscillator
+        var oscButton = {
+            ID: "oscillator",
+            left: 293,
+            top: 142,
+            imagesArray : oscButtonImages,
+            onValueSet: function (slot, value, element) {
+                onParmChange.call (this, element, value);
+                this.ui.refresh();
+            }.bind(this)
+        };
+        
+        this.ui.addElement(new K2.Button(oscButton), {zIndex: 1});
+        this.ui.setValue ({elementID: oscButton.ID, value: this.pluginState.oscillator, fireCallback:false});
+
+        // Oscillator2 Octave
+        var oct2Button = {
+            ID: "octave2",
+            left: 371,
+            top: 45,
+            imagesArray : octButtonImages,
+            onValueSet: function (slot, value, element) {
+                onParmChange.call (this, element, value - 1);
+                this.ui.refresh();
+            }.bind(this)
+        };
+        
+        this.ui.addElement(new K2.Button(oct2Button), {zIndex: 1});
+        this.ui.setValue ({elementID: oct2Button.ID, value: this.pluginState.octave2, fireCallback:false});
+
+        // Oscillator3 Octave
+        var oct3Button = {
+            ID: "octave3",
+            left: 480,
+            top: 45,
+            imagesArray : octButtonImages,
+            onValueSet: function (slot, value, element) {
+                onParmChange.call (this, element, value - 1);
+                this.ui.refresh();
+            }.bind(this)
+        };
+        
+        this.ui.addElement(new K2.Button(oct3Button), {zIndex: 1});
+        this.ui.setValue ({elementID: oct3Button.ID, value: this.pluginState.octave3, fireCallback:false});
+        
         this.ui.refresh();
 
         var saveState = function () {
@@ -372,7 +412,15 @@ define(['require', 'github:janesconference/KievII@jspm0.5/dist/kievII'], functio
         var keyNotes = ["C_f", "C_d", "D_f", "D_d", "E_f", "F_f", "F_d", "G_f", "G_d", "A_f", "A_d", "B_f"];
         var resList = [ 'github:janesconference/Gibberish/scripts/build/gibberish_2.0',
                         './assets/images/knob_64_64_64.png!image',
-                        './assets/images/deck.png!image'];
+                        './assets/images/deck.png!image',
+                        './assets/images/MoogSwitchVRed0.png!image',
+                        './assets/images/MoogSwitchVRed1.png!image',
+                        './assets/images/MoogSwitchVRed2.png!image',
+                        './assets/images/MoogSwitchVRed3.png!image',
+                        './assets/images/MoogSwitchHRed0.png!image',
+                        './assets/images/MoogSwitchHRed1.png!image',
+                        './assets/images/MoogSwitchHRed2.png!image'
+                        ];
 
         var keyNotes_images = [];
         for (var i = 0; i < keyNotes.length; i+=1) {
