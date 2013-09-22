@@ -281,6 +281,8 @@ define(['require', 'github:janesconference/KievII@jspm0.5/dist/kievII'], functio
 
         this.ui.addElement(bgArgs, {zIndex: 0});
 
+        /* KEYS INIT */
+
         /* KNOB INIT */
         // TODO these are duplicates
         this.knobDescription = [
@@ -367,9 +369,17 @@ define(['require', 'github:janesconference/KievII@jspm0.5/dist/kievII'], functio
             args.hostInterface.setInstanceStatus ('fatal', {description: 'Error initializing plugin: ' + failedId});
         }.bind(this);
 
-            var resList = [ 'github:janesconference/Gibberish/scripts/build/gibberish_2.0',
-                            './assets/images/knob_64_64_64.png!image',
-                            './assets/images/deck.png!image'];
+        var keyNotes = ["C_f", "C_d", "D_f", "D_d", "E_f", "F_f", "F_d", "G_f", "G_d", "A_f", "A_d", "B_f"];
+        var resList = [ 'github:janesconference/Gibberish/scripts/build/gibberish_2.0',
+                        './assets/images/knob_64_64_64.png!image',
+                        './assets/images/deck.png!image'];
+
+        var keyNotes_images = [];
+        for (var i = 0; i < keyNotes.length; i+=1) {
+            keyNotes_images.push('./assets/images/' + keyNotes[i] + '_a.png!image');
+            keyNotes_images.push('./assets/images/' + keyNotes[i] + '_i.png!image');
+        }
+        resList = resList.concat(keyNotes_images);
 
             console.log ("requiring...");
 
