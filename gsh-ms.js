@@ -1,4 +1,4 @@
-define(['require', 'github:janesconference/KievII@master/dist/kievII'], function(require, K2) {
+define(['require', 'github:janesconference/KievII@master/kievII'], function(require, K2) {
   
     var pluginConf = {
         name: "GSH MonoSynth",
