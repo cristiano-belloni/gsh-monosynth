@@ -430,7 +430,7 @@ define(['require', 'github:janesconference/KievII@jspmfactory/dist/kievII'], fun
         }.bind(this);
 
         var keyNotes = ["C_f", "C_d", "D_f", "D_d", "E_f", "F_f", "F_d", "G_f", "G_d", "A_f", "A_d", "B_f"];
-        var resList = [ 'github:janesconference/Gibberish/build/gibberish',
+        var resList = [ 'github:janesconference/Gibberish/gibberish',
                         './assets/images/knob_64_64_64.png!image',
                         './assets/images/deck.png!image',
                         './assets/images/MoogSwitchVRed0.png!image',
