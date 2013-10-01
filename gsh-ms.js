@@ -144,7 +144,7 @@ define(['require', 'github:janesconference/KievII@0.6.0/kievII'], function(requi
         this.oscType = ['Triangle', 'Saw', 'Square', 'Sine', 'Noise'];
 
         // Instantiate a monosynth with default parameters
-        this.s = new gb_env.Gibberish.MonoSynth({
+        this.s = new Gibberish.MonoSynth({
           // TODO this is duplicate!
           attack: pluginConf.hostParameters.parameters.attack.range.default,
           resonance: pluginConf.hostParameters.parameters.resonance.range.default,
@@ -162,7 +162,7 @@ define(['require', 'github:janesconference/KievII@0.6.0/kievII'], function(requi
 
         /*var sequencer = new gb_env.Gibberish.Sequencer({
           target: this.s, key:'note',
-          values: [ gb_env.Gibberish.Rndf(150, 300) ],
+          values: [ Gibberish.Rndf(150, 300) ],
           durations:[ 22050 ]
         }).start();*/
 
