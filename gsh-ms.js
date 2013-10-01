@@ -130,8 +130,8 @@ define(['require', 'github:janesconference/KievII@0.6.0/kievII'], function(requi
 
         this.gainNode = this.context.createGain();
 
-        //var gb_env = resources[0];
-        var Gibberish = resources[0];
+        var gb_env = resources[0];
+        var Gibberish = gb_env.Gibberish;
         var knobImage = resources[1];
         var deckImage = resources[2];
         var oscButtonImages = Array.prototype.slice.call(resources, 3, 7);
@@ -425,9 +425,7 @@ define(['require', 'github:janesconference/KievII@0.6.0/kievII'], function(requi
         var args = initArgs;
 
         var requireErr = function (err) {
-            var failedId = err.requireModules && err.requireModules[0];
-            requirejs.undef(failedId);
-            args.hostInterface.setInstanceStatus ('fatal', {description: 'Error initializing plugin: ' + failedId});
+            args.hostInterface.setInstanceStatus ('fatal', {description: 'Error initializing plugin.'});
         }.bind(this);
 
         var keyNotes = ["C_f", "C_d", "D_f", "D_d", "E_f", "F_f", "F_d", "G_f", "G_d", "A_f", "A_d", "B_f"];
