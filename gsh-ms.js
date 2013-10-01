@@ -130,15 +130,16 @@ define(['require', 'github:janesconference/KievII@0.6.0/kievII'], function(requi
 
         this.gainNode = this.context.createGain();
 
-        var gb_env = resources[0];
+        //var gb_env = resources[0];
+        var Gibberish = resources[0];
         var knobImage = resources[1];
         var deckImage = resources[2];
         var oscButtonImages = Array.prototype.slice.call(resources, 3, 7);
         var octButtonImages = Array.prototype.slice.call(resources, 7, 10);
 
-        gb_env.Gibberish.init(this.context, this.gainNode);
-        gb_env.Gibberish.Time.export();
-        gb_env.Gibberish.Binops.export();
+        Gibberish.init(this.context, this.gainNode);
+        Gibberish.Time.export();
+        Gibberish.Binops.export();
 
         this.oscType = ['Triangle', 'Saw', 'Square', 'Sine', 'Noise'];
 
