@@ -281,12 +281,14 @@ define(['require', 'github:janesconference/KievII@0.6.0/kievII'], function(requi
             console.log ("Callback called for", element);
             var note;
 
-            var note_arr = element.split ("_");
-            note = note_arr[0];
-            if (note_arr[1] === 'f') {
-                note += '#';
+            if (value === 1) {
+                var note_arr = element.split ("_");
+                note = note_arr[0];
+                if (note_arr[1] === 'd') {
+                    note += '#';
+                }
+                console.log ("Note is:", note);
             }
-            console.log ("Note is:", note);
 
             this.ui.refresh();
         }.bind(this);
