@@ -284,7 +284,7 @@ define(['require', 'github:janesconference/KievII@0.6.0/kievII'], function(requi
             if (value === 1) {
                 var note_arr = element.split ("_");
                 note = note_arr[0];
-                if (note === 'a' || note === 'b') {
+                if (note === 'A' || note === 'B') {
                     octave = 5;
                 }
                 else {
@@ -295,6 +295,7 @@ define(['require', 'github:janesconference/KievII@0.6.0/kievII'], function(requi
                 }
                 note += octave;
                 console.log ("Note is:", note);
+                this.s.note(note);
             }
 
             this.ui.refresh();
