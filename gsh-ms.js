@@ -279,6 +279,15 @@ define(['require', 'github:janesconference/KievII@0.6.0/kievII'], function(requi
         /* KEYS INIT */
         var keyCB = function (slot,value, element) {
             console.log ("Callback called for", element);
+            var note;
+
+            var note_arr = element.split ("_");
+            note = note_arr[0];
+            if (note_arr[1] === 'f') {
+                note += '#';
+            }
+            console.log ("Note is:", note);
+
             this.ui.refresh();
         }.bind(this);
 
