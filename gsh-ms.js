@@ -279,15 +279,21 @@ define(['require', 'github:janesconference/KievII@0.6.0/kievII'], function(requi
         /* KEYS INIT */
         var keyCB = function (slot,value, element) {
             console.log ("Callback called for", element);
-            var note;
+            var note, octave;
 
             if (value === 1) {
                 var note_arr = element.split ("_");
                 note = note_arr[0];
+                if (note === 'a' || note === 'b') {
+                    octave = 5;
+                }
+                else {
+                    octave = 4;
+                }
                 if (note_arr[1] === 'd') {
                     note += '#';
                 }
-                note += '4';
+                note += octave;
                 console.log ("Note is:", note);
             }
 
