@@ -281,21 +281,20 @@ define(['require', 'github:janesconference/KievII@0.6.0/kievII'], function(requi
             console.log ("Callback called for", element);
             var note, octave;
 
+            var note_hash = {"C4": 261.626, "C#4": 277.183, "D4": 293.665, "D#4": 311.127, "E4": 329.628, "F4": 349.228, "F#4": 369.994, "G4": 391.995, "G#4": 415.305, "A4": 440, "A#4": 466.164, "B4": 493.883};
+
             if (value === 1) {
                 var note_arr = element.split ("_");
                 note = note_arr[0];
-                if (note === 'A' || note === 'B') {
-                    octave = 5;
-                }
-                else {
-                    octave = 4;
-                }
+
+                octave = 4;
+
                 if (note_arr[1] === 'd') {
                     note += '#';
                 }
                 note += octave;
-                console.log ("Note is:", note);
-                this.s.note("C3");
+                console.log ("Note is:", note_hash[note]);
+                this.s.note(note_hash[note]);
             }
 
             this.ui.refresh();
