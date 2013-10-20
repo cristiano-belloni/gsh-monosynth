@@ -160,11 +160,11 @@ define(['require', 'github:janesconference/KievII@0.6.0/kievII'], function(requi
           detune3: pluginConf.hostParameters.parameters.detune3.range.default
         }).connect();
 
-        var sequencer = new gb_env.Gibberish.Sequencer({
+        /*var sequencer = new gb_env.Gibberish.Sequencer({
           target: this.s, key:'note',
           values: [ Gibberish.Rndf(150, 300) ],
           durations:[ 22050 ]
-        }).start();
+        }).start(); */
 
         this.gainNode.connect(this.audioDestination);
 
