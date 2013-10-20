@@ -295,7 +295,7 @@ define(['require', 'github:janesconference/KievII@0.6.0/kievII'], function(requi
                 }
                 note += octave;
                 console.log ("Note is:", note);
-                this.s.note(note);
+                this.s.note("C3");
             }
 
             this.ui.refresh();
