@@ -287,6 +287,7 @@ define(['require', 'github:janesconference/KievII@0.6.0/kievII'], function(requi
                 if (note_arr[1] === 'd') {
                     note += '#';
                 }
+                note += '4';
                 console.log ("Note is:", note);
             }
 
