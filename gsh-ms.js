@@ -417,7 +417,7 @@ define(['require', 'github:janesconference/KievII@0.6.0/kievII'], function(requi
             return { data: this.pluginState };
         };
 
-        args.hostInterface.setSaveState (saveState.bind(this));
+        args.hostInterface.setSaveState (saveState.bind (this));
 
         var onMIDIMessage = function (message) {
             if (message.type === 'noteon') {
