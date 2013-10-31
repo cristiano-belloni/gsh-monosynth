@@ -416,7 +416,8 @@ define(['require', 'github:janesconference/KievII@0.6.0/kievII'], function(requi
         var saveState = function () {
             return { data: this.pluginState };
         };
-        args.hostInterface.setSaveState (saveState);
+
+        args.hostInterface.setSaveState (saveState.bind(this));
 
         var onMIDIMessage = function (message) {
             if (message.type === 'noteon') {
@@ -431,7 +432,7 @@ define(['require', 'github:janesconference/KievII@0.6.0/kievII'], function(requi
             }*/
         };
 
-        args.MIDIHandler.setMIDICallback (onMIDIMessage. bind (this));
+        args.MIDIHandler.setMIDICallback (onMIDIMessage.bind (this));
 
 
         // Initialization made it so far: plugin is ready.
