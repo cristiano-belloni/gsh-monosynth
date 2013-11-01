@@ -333,7 +333,7 @@ define(['require', 'github:janesconference/KievII@0.6.0/kievII'], function(requi
         var MIDI2Freq = function (n) {
             var freq = 440 * Math.pow(2, ((n - 69) / 12));
             return freq;
-        }
+        };
 
         var knobArgs = {
             ID: '',
@@ -361,7 +361,8 @@ define(['require', 'github:janesconference/KievII@0.6.0/kievII'], function(requi
             knobArgs.left = currKnob.x;
             this.ui.addElement(new K2.Knob(knobArgs));
             var initValue = currKnob.init;
-            console.log ("Setting", currKnob.id, "to value", initValue);
+            var rangedInitValue = K2.MathUtils.linearRange (pluginConf.hostParameters.parameters[currKnob.id].range.min, pluginConf.hostParameters.parameters[currKnob.id].range.max, initValue);
+            console.log ("Setting", currKnob.id, "to value", rangedInitValue);
             this.ui.setValue ({elementID: knobArgs.ID, value: initValue, fireCallback:false});
         }
 
