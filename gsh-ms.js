@@ -361,9 +361,9 @@ define(['require', 'github:janesconference/KievII@0.6.0/kievII'], function(requi
             knobArgs.left = currKnob.x;
             this.ui.addElement(new K2.Knob(knobArgs));
             var initValue = currKnob.init;
-            var rangedInitValue = K2.MathUtils.linearRange (pluginConf.hostParameters.parameters[currKnob.id].range.min, pluginConf.hostParameters.parameters[currKnob.id].range.max, initValue);
+            var rangedInitValue = K2.MathUtils.linearRange (pluginConf.hostParameters.parameters[currKnob.id].range.min, pluginConf.hostParameters.parameters[currKnob.id].range.max, 0, 1, initValue);
             console.log ("Setting", currKnob.id, "to value", rangedInitValue);
-            this.ui.setValue ({elementID: knobArgs.ID, value: initValue, fireCallback:false});
+            this.ui.setValue ({elementID: knobArgs.ID, value: rangedInitValue, fireCallback:false});
         }
 
         /* OCTAVE BUTTONS INIT */
