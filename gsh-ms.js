@@ -405,7 +405,10 @@ define(['require', 'github:janesconference/KievII@0.6.0/kievII'], function(requi
 
         args.hostInterface.setSaveState (saveState.bind (this));
 
-        var onMIDIMessage = function (message) {
+        var onMIDIMessage = function (message, when) {
+            if (when) {
+                return;
+            }
             if (message.type === 'noteon') {
                 var freq = MIDI2Freq (message.pitch);
                 var vel = message.velocity / 127;
