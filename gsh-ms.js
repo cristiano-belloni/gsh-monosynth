@@ -2,11 +2,10 @@ define(['require', 'github:janesconference/KievII@0.6.0/kievII'], function(requi
   
     var pluginConf = {
         name: "GSH MonoSynth",
-        osc: false,
         audioOut: 1,
         audioIn: 0,
         version: '0.0.1',
-	hyaId: 'GSHMono',
+        hyaId: 'GSHMono',
         ui: {
             type: 'canvas',
             width: 574,
@@ -173,68 +172,56 @@ define(['require', 'github:janesconference/KievII@0.6.0/kievII'], function(requi
         var onParmChange = function (id, value) {
             this.pluginState[id] = value;
             if (id === 'cutoff') {
-                console.log ("cutoff set to:", value);
                 this.s.cutoff = value;
             }
             if (id === 'resonance') {
-                console.log ("resonance set to:", value);
                 this.s.resonance = value;
             }
             if (id === 'attack') {
                 var atk = Math.round(value);
                 if (this.s.waveform !== atk) {
-                    console.log ("attack set to:", atk);
                     this.s.attack = atk;
                 }
             }
             if (id === 'decay') {
                 var dcy = Math.round(value);
                 if (this.s.waveform !== dcy) {
-                    console.log ("decay set to:", dcy);
                     this.s.decay = dcy;
                 }
             }
             if (id === 'glide') {
                 var glide = Math.round(value);
                 if (this.s.waveform !== glide) {
-                    console.log ("glide set to:", glide);
                     this.s.glide = glide;
                 }
             }
             if (id === 'amp') {
-                console.log ("amp set to:", value);
                 this.s.amp = value;
             }
             if (id === 'oscillator') {
                 var osc = this.oscType [value];
                 if (this.s.waveform !== osc) {
-                    console.log ("oscillator set to:", osc);
                     this.s.waveform = osc;
                 }
             }
             if (id === 'filterMult') {
-                console.log ("filterMult set to:", value);
                 this.s.filterMult = value;
             }
             if (id === 'detune2') {
-                console.log ("detune2 set to:", value);
                 this.s.detune2 = value;
             }
             if (id === 'detune3') {
-                console.log ("detune3 set to:", value);
                 this.s.detune3 = value;
             }
             if (id === 'octave2') {
                 var oct2 = value;
                 if (this.s.octave2 !== oct2) {
-                    console.log ("octave2 set to:", oct2);
                     this.s.octave2 = oct2;
                 }
             }
             if (id === 'octave3') {
                 var oct3 = value;
                 if (this.s.octave3 !== oct3) {
-                    console.log ("octave3 set to:", oct3);
                     this.s.octave3 = oct3;
                 }
             }
@@ -279,7 +266,6 @@ define(['require', 'github:janesconference/KievII@0.6.0/kievII'], function(requi
 
         /* KEYS INIT */
         var keyCB = function (slot,value, element) {
-            console.log ("Callback called for", element);
             var note, octave;
 
             var note_hash = {"C4": 261.626, "C#4": 277.183, "D4": 293.665, "D#4": 311.127, "E4": 329.628, "F4": 349.228, "F#4": 369.994, "G4": 391.995, "G#4": 415.305, "A4": 440, "A#4": 466.164, "B4": 493.883};
@@ -294,7 +280,6 @@ define(['require', 'github:janesconference/KievII@0.6.0/kievII'], function(requi
                     note += '#';
                 }
                 note += octave;
-                console.log ("Note is:", note_hash[note]);
                 this.s.note(note_hash[note]);
             }
 
@@ -363,7 +348,6 @@ define(['require', 'github:janesconference/KievII@0.6.0/kievII'], function(requi
             this.ui.addElement(new K2.Knob(knobArgs));
             var initValue = currKnob.init;
             var rangedInitValue = K2.MathUtils.linearRange (pluginConf.hostParameters.parameters[currKnob.id].range.min, pluginConf.hostParameters.parameters[currKnob.id].range.max, 0, 1, initValue);
-            console.log ("Setting", currKnob.id, "to value", rangedInitValue);
             this.ui.setValue ({elementID: knobArgs.ID, value: rangedInitValue, fireCallback:false});
         }
 
@@ -469,15 +453,12 @@ define(['require', 'github:janesconference/KievII@0.6.0/kievII'], function(requi
         }
         resList = resList.concat(keyNotes_images);
 
-            console.log ("requiring...");
-
             require (resList,
                 function () {
-                    console.log ("required...");
                     pluginFunction.call (this, args, arguments, keyNotes);
                 }.bind(this),
                 function (err) {
-                    console.log ("require error");
+                    console.error ("require error");
                     requireErr (err);
                 }
             );
