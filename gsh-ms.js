@@ -131,20 +131,20 @@ define(['require', 'github:janesconference/KievII@0.6.0/kievII'], function(requi
         this.gainNode = this.context.createGain();
 
         var gb_env = resources[0];
-        var Gibberish = gb_env.Gibberish;
+        this.Gibberish = gb_env.Gibberish;
         var knobImage = resources[1];
         var deckImage = resources[2];
         var oscButtonImages = Array.prototype.slice.call(resources, 3, 7);
         var octButtonImages = Array.prototype.slice.call(resources, 7, 10);
 
-        Gibberish.init(this.context, this.gainNode);
-        Gibberish.Time.export();
-        Gibberish.Binops.export();
+        this.Gibberish.init(this.context, this.gainNode);
+        this.Gibberish.Time.export();
+        this.Gibberish.Binops.export();
 
         this.oscType = ['Triangle', 'Saw', 'Square', 'Sine', 'Noise'];
 
         // Instantiate a monosynth with default parameters
-        this.s = new Gibberish.MonoSynth({
+        this.s = new this.Gibberish.MonoSynth({
           // TODO this is duplicate!
           attack: pluginConf.hostParameters.parameters.attack.range.default,
           resonance: pluginConf.hostParameters.parameters.resonance.range.default,
